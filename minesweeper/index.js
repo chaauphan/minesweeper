@@ -67,11 +67,6 @@ function testing() {
     
 }*/
 
-function makeBoard() {
-    for (let a = 0; a < 8; a++) {
-
-    }
-}
 
 boardInitialize();
 testing();
