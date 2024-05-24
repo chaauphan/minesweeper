@@ -34,17 +34,37 @@ function placeMines() {
         let mineCoordY = getRandomNum(0, 9);
         let mineCoordX = getRandomNum(0, 9);
         
-        i = mineCoordY;
+        i = mineCoordY; //row
         j = mineCoordX;
         //if i and j no mines, then place
         if (board[i][j].isMine == false) {
-            board[i][j].isMine == true;
+            board[i][j].isMine = true;
             minesPlaced++;
         } 
-        console.log(mineCoordY, mineCoordX);
+        console.log(mineCoordY, mineCoordX); //test
     }
 }
 
+function adjacentMines() {
+    let rowCounter = 0;
+    let columnCounter = 0;
+    for (let a = 0; a < numRows; a++) {
+        for (let b = 0; b < numColumns; b++) {
+            if (board[a][b].isMine == false) {
+                // a = 0, can't count up, a = 9, down
+                //b = 0, can't count left, b = 8, right
+                //case for center cells
+                for (rowCounter = a - 1; rowCounter < a + 2; rowCounter++) {
+                    for (columnCounter = b - 1; columnCounter < b + 2; columnCounter++) {
+                        if (rowCounter >= 0 && rowCounter < numRows && columnCounter >= 0 && columnCounter < numColumns && board[rowCounter][columnCounter].isMine == true) {
+                            board[a][b].count = board[a][b].count + 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
     
 
 function testing() {
@@ -71,3 +91,5 @@ function testing() {
 boardInitialize();
 testing();
 placeMines();
+adjacentMines();
+console.log(board);
