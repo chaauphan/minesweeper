@@ -7,3 +7,42 @@ body {
     display: inline-block;
     margin: 20px;
 }
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 2px solid;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: beige;
+    color: black;
+}
+
+.reveal {
+    background-color: blueviolet;
+    color: black;
+}
+
+.mine {
+    background-color: chartreuse;
+}
+
+#restart-Button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-color: gray;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1;
+    padding: 15px 25px;
+    text-align: center;
+
+}

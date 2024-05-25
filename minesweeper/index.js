@@ -6,6 +6,9 @@ const gameBoard = document.getElementById("gameBoard");
 
 let board = [];
 
+const restartButton = document.getElementById("restart-Button");
+restartButton.addEventListener("click", restart());
+
 function boardInitialize(){
     for (let i = 0; i < numRows; i++) {
         board[i] = [];
@@ -25,11 +28,10 @@ function getRandomNum(min, max) {
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
 }
 
-let minesPlaced = 0;
-let i = 0;
-let j = 0;
-
 function placeMines() {
+    let minesPlaced = 0;
+    let i = 0;
+    let j = 0;
     while (minesPlaced < 10) { //account for repeated generation
         let mineCoordY = getRandomNum(0, 9);
         let mineCoordX = getRandomNum(0, 9);
@@ -65,31 +67,64 @@ function adjacentMines() {
         }
     }
 }
-    
 
-function testing() {
-    //console.log(mineCoordY, mineCoordX);
-}
+function revealCell(row, column) {
 
-/*function createBoard() {
-    for(let a=0; a<8; a++) {
-        const row = document.createElement("div");
-        document.getElementById("board").appendChild(row);
-        row.className = 'row';
-
-        for(let b=0; b<10; b++) {
-            const column = document.createElement("div");
-            column.className = 'column';
-            row.appendChild(column);
-        }
+    if (row < 0 || row >= numRows || column < 0 || column >= numColumns || board[row][column].reveal == true) {
+        return;
     }
 
+    board[row][column].reveal = true;
+
+    if (board[row][column].isMine === true) {
+        alert("Game Over ):");
+    }
+
+    else if (board[row][column].count === 0) {
+        for (let a = row - 1; a < numRows + 2; a++){
+            for (let b = column - 1; b < numColumns + 2; b++) {
+                    revealCell(a, b);
+            }
+        }
+    }
+    createBoard();
+}
     
-}*/
+function createBoard() {
+    gameBoard.innerHTML = "";
+
+    for (let i = 0; i < numRows; i++) {
+        for (let j = 0; j < numColumns; j++) {
+            let cell = document.createElement("div");
+            cell.className = "cell";
+
+            if (board[i][j].reveal == true) {
+                cell.classList.add ("revealed");
+                
+                if (board[i][j].isMine == true) {
+                    cell.classList.add ("mine");
+                    cell.textContent = "!"
+                }
+                else if (board[i][j].count > 0) {
+                    cell.textContent = board[i][j].count;
+                }
+            }
+            cell.addEventListener ("click", () => revealCell(i, j));
+            gameBoard.appendChild(cell);
+        }
+        gameBoard.appendChild(document.createElement("br"));
+    }
+}
+
+function restart() {
+    gameBoard
+    board = [];
+    boardInitialize();
+    board.forEach(cell => cell.textContent = "");
+}
+
 
 
 boardInitialize();
-testing();
 placeMines();
-adjacentMines();
-console.log(board);
+createBoard();
